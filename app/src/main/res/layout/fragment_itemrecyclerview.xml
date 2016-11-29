@@ -1,0 +1,87 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:minHeight="100dp"
+    android:orientation="horizontal"
+    android:id="@+id/list_item"
+    android:layout_marginTop="4dp"
+    android:layout_marginLeft="5dp"
+    android:layout_marginRight="5dp"
+    android:layout_marginBottom="4dp"
+
+    >
+
+    <LinearLayout
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+        android:background="@drawable/corner"
+        android:padding="7dp"
+        android:orientation="horizontal"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentStart="true">
+
+        <RelativeLayout
+            android:layout_width="wrap_content"
+            android:layout_height="100dp"
+            android:layout_weight="0.27"
+            android:padding="10dp">
+
+            <ImageView
+                android:layout_width="48dp"
+                android:layout_height="48dp"
+                android:src="@mipmap/ic_launcher"
+                android:id="@+id/header_img"
+                />
+        </RelativeLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="7"
+            android:weightSum="1"
+            android:layout_marginTop="10dp"
+            android:orientation="vertical">
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="29dp">
+                <TextView
+                    android:paddingLeft="10dp"
+                    android:textSize="20dp"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/memberID"
+                    android:text="123"/>
+
+                <TextView
+                    android:textSize="20dp"
+                    android:paddingLeft="8dp"
+                    android:paddingTop="1dp"
+                    android:layout_width="40dp"
+                    android:layout_height="40dp"
+                    android:text="20"
+                    android:layout_gravity="right"
+                    android:layout_alignParentTop="true"
+                    android:layout_alignParentEnd="true"
+                    android:background="@drawable/corner_replies"
+                    android:textColor="@color/colorWhite"
+                    android:id="@+id/reply_count"/>
+            </RelativeLayout>
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="string/hello_blank_fragment"
+                android:textColor="@color/colorBlack"
+                android:id="@+id/content"
+                android:padding="5dp"
+                android:textSize="22sp"
+                android:textAlignment="textStart" />
+        </LinearLayout>
+
+
+    </LinearLayout>
+
+
+</RelativeLayout>
