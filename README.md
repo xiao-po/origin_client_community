@@ -1,0 +1,4 @@
+# origin_client_v2ex
+主要功的的内容都是在analysis.java里面（我承认封装做得够差的，以后有时间拆开来），
+这个项目由recyclerview和slidetabview构成，analysis.java承担了数据的下载分析数据库的存取，
+recylerview中使用了异步进程执行analysis.java的下载并且显示在其中的item上
