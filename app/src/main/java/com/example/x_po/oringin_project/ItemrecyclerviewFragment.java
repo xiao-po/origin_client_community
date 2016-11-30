@@ -149,9 +149,8 @@ public class ItemrecyclerviewFragment extends Fragment {
                     boolean isRefreshing = swipeRefreshLayout.isRefreshing();
                     Log.i("onScrolled: ","isRdfreshing = " +isRefreshing);
                     if (isRefreshing) {
-
                         adapter.notifyItemRemoved(adapter.getItemCount());
-                        return;
+                        //return;
                     }
                     if (!isLoading) {
                         isLoading = true;
@@ -169,10 +168,15 @@ public class ItemrecyclerviewFragment extends Fragment {
         });
         adapter.setOnItemClickListener(new MyItemrecyclerviewRecyclerViewAdapter.OnItemClickListener() {
             @Override
-            public void onItemClick(View view, int position) {
+            public void onItemClick(View view, int position,String username) {
                 Log.d("Intent", "GO!GO!GO!");
+                Bundle bundle = new Bundle();
+                bundle.putInt("content_id",position);
+                bundle.putString("node",v2ex_src_name[column_count-1]);
+                bundle.putString("member_username",username);
                 Intent intent = new Intent();
                 intent.setClass(getContext(), Reply_Activity.class);
+                intent.putExtras(bundle);
                 startActivity(intent);
             }
 
@@ -187,6 +191,7 @@ public class ItemrecyclerviewFragment extends Fragment {
         handler.postDelayed(new Runnable() {
             @Override
             public void run() {
+
                 new imgTask().execute();
                 //getData();
             }
@@ -204,11 +209,10 @@ public class ItemrecyclerviewFragment extends Fragment {
         }
         cursor.close();
         db.close();
-        if(list.size() <= 50) {
+        Log.i("getData: ",list.size()+"");
             adapter.notifyDataSetChanged();
             swipeRefreshLayout.setRefreshing(false);
             adapter.notifyItemRemoved(adapter.getItemCount());
-        }
     }
 
     class imgTask extends AsyncTask<String,Integer,String> {//继承AsyncTask

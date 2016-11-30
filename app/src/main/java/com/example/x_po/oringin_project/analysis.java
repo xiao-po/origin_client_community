@@ -45,6 +45,7 @@ public class analysis {
     private String header_src[] = new String[50];
     private String src[]=new String[50];
     String topic_content = null;
+    ArrayList<String> replies_member_headersrc = new ArrayList();
     ArrayList<String> replies_member_id = new ArrayList();
     ArrayList<String> replies_content = new ArrayList();
     ArrayList<String> replies_member_username=  new ArrayList();
@@ -169,7 +170,7 @@ public class analysis {
         db.close();
     }
     //json解析
-    public String json_analysis(String src,String rcount,SQLiteDatabase db){
+    public String json_analysis(String src){
         String json_str=null;
         Log.i(TAG, "json_analysis: "+replies_api + src);
         try {
@@ -187,11 +188,15 @@ public class analysis {
             for(int index = 0;index < json.length();index++){
                 JSONObject json1 = (JSONObject) json.get(index);
                 JSONObject member  =json1.getJSONObject("member");
+
+                //Log.i( "json_analysis: ",json1.getString("content"));
                 replies_member_username.add(member.getString("username"));
                 replies_member_id.add(member.getString("id"));
                 replies_content.add(json1.getString("content"));
+                replies_member_headersrc.add(member.getString("avatar_normal"));
+                //Log.i( "json_analysis: ",replies_content.get(index));
             }
-            insert_replies(src,Integer.parseInt(rcount),db);
+            //insert_replies(src,Integer.parseInt(rcount),db);
 
         } catch (IOException e) {
             e.printStackTrace();
@@ -335,24 +340,24 @@ public class analysis {
         return src.substring(3,9);
     }
     //插入回复表
-    private void insert_replies(String srcID,int topic_rcount,SQLiteDatabase db){
-        ContentValues cValue = new ContentValues();
-        for(int i = topic_rcount;i<replies_content.size();i++){
-            int a = 0;
-            a = (int)i/10;
-            cValue.put("rtitlesrc",srcID);
-            cValue.put("rreplies_text",replies_content.get(i));
-            cValue.put("rreplies_member_id",replies_member_id.get(i));
-            cValue.put("rreplies_member_username",replies_member_username.get(i));
-            cValue.put("rpagecount",a);
-
-            db.insert("replies",null,cValue);
-            cValue.clear();
-        }
-        replies_content.clear();
-        replies_member_id.clear();
-        replies_member_username.clear();
-    }
+//    private void insert_replies(String srcID,int topic_rcount,SQLiteDatabase db){
+//        ContentValues cValue = new ContentValues();
+//        for(int i = topic_rcount;i<replies_content.size();i++){
+//            int a = 0;
+//            a = (int)i/10;
+//            cValue.put("rtitlesrc",srcID);
+//            cValue.put("rreplies_text",replies_content.get(i));
+//            cValue.put("rreplies_member_id",replies_member_id.get(i));
+//            cValue.put("rreplies_member_username",replies_member_username.get(i));
+//            cValue.put("rpagecount",a);
+//
+//            db.insert("replies",null,cValue);
+//            cValue.clear();
+//        }
+//        replies_content.clear();
+//        replies_member_id.clear();
+//        replies_member_username.clear();
+//    }
     public void query_test(SQLiteDatabase db){
         Cursor cursor = db.query("replies",null,null,null,null,null,null);
 
@@ -465,6 +470,42 @@ public class analysis {
 
     }
 
+    public String topic_id(int position,String node){
+        SQLiteDatabase db = GetDB();
+        Cursor cursor = db.query("topic",null,"rnode = '"+node+"'",null,null,null,null);
+        if(cursor.moveToFirst()){
+            cursor.move(position);
+            String src = cursor.getString(2);
+            return src.substring(3,9);
+        }
+        return null;
+    }
+
+    public SQLiteDatabase GetDB(){
+        return SQLiteDatabase.openOrCreateDatabase(
+                "/data/data/com.example.x_po.oringin_project/data.db",null);
+    }
+
+//    public String GetTopic_content(){
+//        return topic_content;
+//    }
+
+    public ArrayList<String> GetReplies_member_id() {
+        return replies_member_id;
+    }
+
+    public ArrayList<String> GetReplies_member_username() {
+        return replies_member_username;
+    }
+    public ArrayList<String> GetReplies_content() {
+        return replies_content;
+    }
+    public ArrayList<String> GetReplies_member_headersrc() {
+        return replies_member_headersrc;
+    }
+    public String GetTopic_content(){
+        return topic_content;
+    }
 }
 
     /*"rnode text," +//节点信息

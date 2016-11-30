@@ -35,7 +35,7 @@ public class MyItemrecyclerviewRecyclerViewAdapter extends RecyclerView.Adapter<
     private int x=0;
     private int MAX_LIST;
     public interface OnItemClickListener {
-        void onItemClick(View view, int position);
+        void onItemClick(View view, int position,String member_username);
 
         void onItemLongClick(View view, int position);
     }
@@ -80,12 +80,12 @@ public class MyItemrecyclerviewRecyclerViewAdapter extends RecyclerView.Adapter<
             if (onItemClickListener != null) {
 
                 map = analysis_test.display_query(db,v2ex_src_name[mposition],position);
-
+                final String username = (String) map.get("rmember");
                 holder.itemView.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
                         int position = holder.getLayoutPosition();
-                        onItemClickListener.onItemClick(holder.itemView, position);
+                        onItemClickListener.onItemClick(holder.itemView, position,username);
                     }
                 });
                 m1position = position;
